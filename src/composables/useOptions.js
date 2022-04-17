@@ -121,7 +121,7 @@ export default function useOptions (props, context, dep)
   const hasSelected = computed(() => {
     switch (mode.value) {
       case 'single':
-        return !isNullish(iv.value[valueProp.value])
+        return iv.value[valueProp.value] !== nullValue.value
 
       case 'multiple':
       case 'tags':
@@ -489,7 +489,7 @@ export default function useOptions (props, context, dep)
 
   // no export
   const initInternalValue = () => {
-    if (!isNullish(ev.value)) {
+    if (ev !== nullValue.value) {
       iv.value = makeInternal(ev.value)
     }
   }
@@ -541,8 +541,8 @@ export default function useOptions (props, context, dep)
 
   // no export
   const makeInternal = (val) => {
-    if (isNullish(val)) {
-      return mode.value === 'single' ? {} : []
+    if (val === nullValue.value) {
+      return nullValue
     }
 
     if (object.value) {
